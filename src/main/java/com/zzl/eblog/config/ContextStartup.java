@@ -37,7 +37,7 @@ public class ContextStartup implements ApplicationRunner, ServletContextAware {
 
         servletContext.setAttribute("categoryList",categoryList);
 
-//        postService.initWeekRank();
+//        postService.initWeekRanks();
     }
 
     @Override

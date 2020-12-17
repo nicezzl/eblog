@@ -9,6 +9,8 @@
         <meta name="keywords" content="fly,layui,前端社区">
         <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
         <script src="/res/layui/layui.js"></script>
+        <script src="/res/js/jquery.min.js"></script>
+
         <link rel="stylesheet" href="/res/layui/css/layui.css">
         <link rel="stylesheet" href="/res/css/global.css">
     </head>
@@ -21,10 +23,8 @@
 
     <#include "/inc/footer.ftl" />
 
-
-<#--    <script src=""></script>-->
     <script>
-        layui.cache.page = '';
+        // layui.cache.page = '';
         layui.cache.user = {
             username: '游客'
             ,uid: -1
@@ -42,6 +42,5 @@
 
     </body>
     </html>
-
 
 </#macro>

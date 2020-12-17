@@ -18,7 +18,7 @@ public abstract class TemplateDirective implements TemplateDirectiveModel {
     public void execute(Environment env, Map parameters,
                         TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
         try {
-            execute(new com.zzl.eblog.common.templates.DirectiveHandler(env, parameters, loopVars, body));
+            execute(new DirectiveHandler(env, parameters, loopVars, body));
         } catch (IOException e) {
             throw e;
         } catch (Exception e) {
@@ -27,6 +27,6 @@ public abstract class TemplateDirective implements TemplateDirectiveModel {
     }
 
     abstract public String getName();
-    abstract public void execute(com.zzl.eblog.common.templates.DirectiveHandler handler) throws Exception;
+    abstract public void execute(DirectiveHandler handler) throws Exception;
 
 }

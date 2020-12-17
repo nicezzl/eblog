@@ -21,7 +21,11 @@ public interface PostService extends IService<Post> {
 
     IPage paging(Page page, Long categoryId, Long userId, Integer level, Boolean recommend, String order);
 
-    void initWeekRank();
-
     PostVo selectOnePost(QueryWrapper<Post> wrapper);
+
+    void initWeekRanks();
+
+    void incrCommentCountAndUnitForWeekRank(long postId, boolean isIncr);
+
+    void putViewCount(PostVo postVo);
 }

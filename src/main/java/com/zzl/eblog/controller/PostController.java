@@ -32,6 +32,8 @@ public class PostController extends  BaseController{
         PostVo postVo  = postService.selectOnePost(new QueryWrapper<Post>().eq("p.id",id));
         Assert.notNull(postVo,"文章已被删除");
 
+//        postService.putViewCount(postVo);
+
         // 1.分页 2.文章id 3.用户id ，4.排序
         IPage<CommentVo> results = commentService.paging(getPage(), postVo.getId(), null,"created");
 
@@ -40,7 +42,6 @@ public class PostController extends  BaseController{
         request.setAttribute("pageData",results);
         return "post/detail";
     }
-
 
 
 
