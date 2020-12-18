@@ -42,7 +42,7 @@
                   </div>
                 </div>
                 <div class="layui-form-item">
-                  <label for="L_vercode" class="layui-form-label">人类验证</label>
+                  <label for="L_vercode" class="layui-form-label">验证</label>
                   <div class="layui-input-inline">
                     <input type="text" id="L_vercode" name="vercode" required lay-verify="required" placeholder="请回答后面的问题" autocomplete="off" class="layui-input">
                   </div>
@@ -55,6 +55,7 @@
                 <div class="layui-form-item">
                   <button class="layui-btn" lay-filter="*" lay-submit alert="true">立即注册</button>
                 </div>
+
                 <div class="layui-form-item fly-form-app">
                   <span>或者直接使用社交账号快捷注册</span>
                   <a href="" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" class="iconfont icon-qq" title="QQ登入"></a>

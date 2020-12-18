@@ -1,10 +1,10 @@
 package com.zzl.eblog.config;
 
+import com.jagregory.shiro.freemarker.ShiroTags;
 import com.zzl.eblog.template.HotsTemplate;
 import com.zzl.eblog.template.PostsTemplate;
 import com.zzl.eblog.template.TimeAgoMethod;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -33,7 +33,7 @@ public class FreemarkerConfig {
         configuration.setSharedVariable("timeAgo", new TimeAgoMethod());
         configuration.setSharedVariable("posts", postsTemplate);
         configuration.setSharedVariable("hots", hotsTemplate);
-//        configuration.setSharedVariable("shiro", new ShiroTags());
+        configuration.setSharedVariable("shiro", new ShiroTags());
     }
 
 }

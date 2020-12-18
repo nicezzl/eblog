@@ -17,3 +17,6 @@ spring:
     password:
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml
+file:
+  upload:
+    dir: ${user.dir}/upload
