@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("user_massage")
+@TableName("user_message")
 public class UserMessage extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
@@ -45,8 +45,10 @@ public class UserMessage extends BaseEntity {
 
     /**
      * 消息类型
+     * 0系统信息 1评论文章 2评论评论
      */
     private Integer type;
 
+    private Integer status;
 
 }

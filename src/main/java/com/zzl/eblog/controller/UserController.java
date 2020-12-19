@@ -1,38 +1,39 @@
 package com.zzl.eblog.controller;
 
-import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zzl.eblog.common.lang.Consts;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zzl.eblog.common.lang.Result;
 import com.zzl.eblog.entity.Post;
 import com.zzl.eblog.entity.User;
-import com.zzl.eblog.service.UserService;
+import com.zzl.eblog.entity.UserMessage;
+import com.zzl.eblog.service.UserMessageService;
 import com.zzl.eblog.shiro.AccountProfile;
 import com.zzl.eblog.util.UploadUtil;
-import org.apache.shiro.authc.Account;
-import org.beetl.ext.fn.StringUtil;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
-import java.awt.geom.RectangularShape;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import java.util.Map;
 /**
  * @Author zzl
  * @Date 2020/12/17 21:16
  */
 @Controller
 public class UserController extends BaseController {
+
+    @Autowired
+    UserMessageService messageService;
 
     @Autowired
     UploadUtil uploadUtil;
@@ -73,6 +74,8 @@ public class UserController extends BaseController {
             AccountProfile profile = getProfile();
             profile.setAvatar(user.getAvatar());
 
+            SecurityUtils.getSubject().getSession().setAttribute("prifile",profile);
+
             return Result.success().action("/user/set#avatar");
 
         }
@@ -99,13 +102,14 @@ public class UserController extends BaseController {
         profile.setUsername(temp.getUsername());
         profile.setSign(temp.getSign());
 
+        SecurityUtils.getSubject().getSession().setAttribute("prifile",profile);
+
         return Result.success().action("/user/set#info");
     }
 
     @ResponseBody
     @PostMapping("/user/upload")
     public Result uploadAvatar(@RequestParam(name = "file") MultipartFile file) throws IOException {
-
 
         return uploadUtil.upload(UploadUtil.type_avatar,file);
     }
@@ -129,6 +133,67 @@ public class UserController extends BaseController {
 
         return Result.success().action("/user/set#pass");
 
+    }
+
+    @GetMapping("/user/index")
+    public String index(){
+        return "/user/index";
+    }
+
+    @ResponseBody
+    @GetMapping("/user/public")
+    public Result userP(){
+        IPage page = postService.page(getPage(), new QueryWrapper<Post>()
+                .eq("user_id",getProfileId())
+                .orderByDesc("created")
+        );
+
+        return Result.success(page);
+    }
+
+    @ResponseBody
+    @GetMapping("/user/collection")
+    public Result collection(){
+        IPage page = postService.page(getPage(), new QueryWrapper<Post>()
+                .inSql("id","select post_id from user_collection where user_id = " + getProfileId())
+        );
+
+        return Result.success(page);
+    }
+
+    @GetMapping("/user/mess")
+    public String mess(){
+        IPage page = messageService.paging(getPage(), new QueryWrapper<UserMessage>()
+                .eq("to_user_id",getProfileId())
+                .orderByDesc("created")
+        );
+        request.setAttribute("pageData",page);
+
+        return "/user/mess";
+    }
+
+    @ResponseBody
+    @PostMapping("/msg/remove/")
+    public Result msgRemove(Long id,
+                            @RequestParam(defaultValue = "false") Boolean all) {
+
+        boolean remove = messageService.remove(new QueryWrapper<UserMessage>()
+                .eq("to_user_id", getProfileId())
+                .eq(!all, "id", id));
+
+        return remove ? Result.success(null) : Result.fail("删除失败");
+    }
+
+    @ResponseBody
+    @RequestMapping("/msg/nums/")
+    public Map msgNums(){
+
+        int count = messageService.count(new QueryWrapper<UserMessage>()
+                .eq("to_user_id",getProfileId())
+                .eq("status","0")
+        );
+
+        return MapUtil.builder("status",0).put("count", count).build();
     }
 
 }

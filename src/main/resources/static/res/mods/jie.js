@@ -3,7 +3,7 @@
  @Name: 求解板块
 
  */
- 
+
 layui.define('fly', function(exports){
 
   var $ = layui.jquery;
@@ -12,7 +12,7 @@ layui.define('fly', function(exports){
   var laytpl = layui.laytpl;
   var form = layui.form;
   var fly = layui.fly;
-  
+
   var gather = {}, dom = {
     jieda: $('#jieda')
     ,content: $('#L_content')
@@ -64,7 +64,7 @@ layui.define('fly', function(exports){
       required[0].value = '';
       dom.jieda.find('.fly-none').remove();
       dom.jieda.append(html);
-      
+
       var count = dom.jiedaCount.text()|0;
       dom.jiedaCount.html(++count);
     });
@@ -76,18 +76,18 @@ layui.define('fly', function(exports){
     del: function(div){
       layer.confirm('确认删除该求解么？', function(index){
         layer.close(index);
-        fly.json('/api/jie-delete/', {
+        fly.json('/post/delete/', {
           id: div.data('id')
         }, function(res){
           if(res.status === 0){
-            location.href = '/jie/';
+            location.href = '/user/index/';
           } else {
             layer.msg(res.msg);
           }
         });
       });
     }
-    
+
     //设置置顶、状态
     ,set: function(div){
       var othis = $(this);
@@ -106,7 +106,7 @@ layui.define('fly', function(exports){
     ,collect: function(div){
       var othis = $(this), type = othis.data('type');
       fly.json('/collection/'+ type +'/', {
-        cid: div.data('id')
+        pid: div.data('id')
       }, function(res){
         if(type === 'add'){
           othis.data('type', 'remove').html('取消收藏').addClass('layui-btn-danger');
@@ -221,7 +221,7 @@ layui.define('fly', function(exports){
             layer.msg(res.msg);
           }
         });
-      });    
+      });
     }
   };
 

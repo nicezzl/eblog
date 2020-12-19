@@ -1,6 +1,7 @@
 package com.zzl.eblog.shiro;
 
 import com.zzl.eblog.service.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -29,8 +30,9 @@ public class AccountRealm extends AuthorizingRealm {
 
         AccountProfile profile = userService.login(usernamePasswordToken.getUsername(), String.valueOf(usernamePasswordToken.getPassword()));
 
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(profile, token.getCredentials(), getName());
+        SecurityUtils.getSubject().getSession().setAttribute("prifile",profile);
 
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(profile, token.getCredentials(), getName());
 
         return info;
     }

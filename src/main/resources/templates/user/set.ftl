@@ -2,7 +2,7 @@
 
 <@layout "基本设置">
   <div class="layui-container fly-marginTop fly-user-main">
-<#--    <@centerLeft level=2></@centerLeft>-->
+    <@centerLeft level=2></@centerLeft>
 
     <div class="site-tree-mobile layui-hide">
       <i class="layui-icon">&#xe602;</i>

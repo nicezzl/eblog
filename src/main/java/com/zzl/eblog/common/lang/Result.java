@@ -1,6 +1,5 @@
 package com.zzl.eblog.common.lang;
 
-import com.baomidou.mybatisplus.extension.api.R;
 import lombok.Data;
 
 import java.io.Serializable;
